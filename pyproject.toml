@@ -1,0 +1,20 @@
+[project]
+name = "mcp-core"
+version = "0.1.0"
+description = "MCP Core SDK"
+requires-python = ">=3.11"
+dependencies = [
+    "fastmcp==2.12.4",
+    "pandas==2.0.0",
+    "pyarrow==12.0.0",
+    "duckdb==1.4.0",
+    "numpy==1.24.3",
+    "python-dotenv==1.1.0"
+]
+
+[project.scripts]
+mcp-core = "mcp_core.cli:main"
+
+[build-system]
+requires = ["setuptools>=65", "wheel"]
+build-backend = "setuptools.build_meta"
