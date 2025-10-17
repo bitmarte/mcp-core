@@ -12,8 +12,12 @@ def _load_env():
     ]
     for p in paths:
         if p.exists():
+            print(f"[DEBUG] Loading env from: {p}")
             load_dotenv(p, override=True)
+            print(f"[DEBUG] CORE_PORT after load: {os.getenv('CORE_PORT')}")
             break
+    else:
+        print("[DEBUG] No .env found")
 
 _load_env()
 
