@@ -1,8 +1,20 @@
 import os
 from dotenv import load_dotenv
 
-# Carica il file .env se presente
-load_dotenv("/app/.env")  # legge variabili dal file .env nella root del progetto
+# Carica il file .env
+def _load_env():
+    # cerca in /app/.env o nel package installato
+    paths = [
+        Path("/app/.env"),
+        Path(__file__).parent / ".env",
+        Path.cwd() / ".env",
+    ]
+    for p in paths:
+        if p.exists():
+            load_dotenv(p, override=True)
+            break
+
+_load_env()
 
 class CoreConfig:
     """Configurazioni centralizzate per tutti gli helper,
@@ -11,7 +23,7 @@ class CoreConfig:
 
     def __init__(self, reload_env: bool = True):
         if reload_env:
-            load_dotenv("/app/.env", override=True)  # <-- forza ricaricamento anche se già caricato
+            _load_env()  # <-- forza ricaricamento anche se già caricato
         # Loader generico CORE_ per tutte le configurazioni
         self.core = self._load_core_configs()
 
