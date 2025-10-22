@@ -22,6 +22,7 @@ class SQLiteHelper:
         path = Path(path)
         if not path.exists():
             self.logger.warning(f"File DB SQLite '{path}' non esiste ancora.")
+        self.logger.info(f"Collegamento al DB SQLite '{path}' in corso...")
         return path
 
     def query(self, sql: str, params: tuple | None = None, alias: str = "default"):
