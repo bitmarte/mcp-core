@@ -19,9 +19,6 @@ class SQLiteHelper:
         path = self.db_paths.get(alias)
         if not path:
             raise ValueError(f"Alias SQLite '{alias}' non trovato.")
-        path = Path(path)
-        if not path.exists():
-            self.logger.warning(f"File DB SQLite '{path}' non esiste ancora.")
         self.logger.info(f"Collegamento al DB SQLite '{path}' in corso...")
         return path
 
@@ -30,7 +27,7 @@ class SQLiteHelper:
         params = params or ()
         db_path = self._get_db_path(alias)
         self.logger.debug(f"Eseguo query SQLite su '{alias}': {sql} | params={params}")
-        with sqlite3.connect(db_path) as conn:
+        with sqlite3.connect(db_path, uri=True) as conn:
             cursor = conn.cursor()
             cursor.execute(sql, params)
             return cursor.fetchall()
@@ -40,7 +37,7 @@ class SQLiteHelper:
         params = params or ()
         db_path = self._get_db_path(alias)
         self.logger.debug(f"Eseguo query_df SQLite su '{alias}': {sql} | params={params}")
-        with sqlite3.connect(db_path) as conn:
+        with sqlite3.connect(db_path, uri=True) as conn:
             df = pd.read_sql_query(sql, conn, params=params)
         return df
 
@@ -49,7 +46,7 @@ class SQLiteHelper:
         params = params or ()
         db_path = self._get_db_path(alias)
         self.logger.debug(f"Eseguo execute SQLite su '{alias}': {sql} | params={params}")
-        with sqlite3.connect(db_path) as conn:
+        with sqlite3.connect(db_path, uri=True) as conn:
             cursor = conn.cursor()
             cursor.execute(sql, params)
             conn.commit()
