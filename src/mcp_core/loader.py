@@ -32,7 +32,7 @@ def load_tools(tools_path: str = "tools") -> list[str]:
         sys.path.insert(0, base_dir)
 
     # Importa ricorsivamente tutti i moduli .py
-    for root, _, files in os.walk(base_dir):
+    for root, dirs, files in os.walk(base_dir):
         # Escludi tutte le cartelle chiamate "examples"
         dirs[:] = [d for d in dirs if d != "examples"]
 
