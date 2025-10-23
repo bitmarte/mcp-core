@@ -33,6 +33,9 @@ def load_tools(tools_path: str = "tools") -> list[str]:
 
     # Importa ricorsivamente tutti i moduli .py
     for root, _, files in os.walk(base_dir):
+        # Escludi tutte le cartelle chiamate "examples"
+        dirs[:] = [d for d in dirs if d != "examples"]
+
         for filename in files:
             if not filename.endswith(".py") or filename.startswith("_"):
                 continue
